@@ -13,7 +13,7 @@ setup(
     author='Mapzen',
     url='https://github.com/mapzen/py-mapzen-dbtickets',
     install_requires=[
-        'mysql.connector',
+        # 'mysql.connector',
         ],
     dependency_links=[
         ],

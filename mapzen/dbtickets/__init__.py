@@ -21,6 +21,15 @@ class dbtickets:
 
     def connect(self, **cfg):
 
+        if not cfg.get('user', None):
+            cfg['user'] = 'dbtickets'
+
+        if not cfg.get('database', None):
+            cfg['database'] = 'dbtickets'
+
+        if not cfg.get('host', None):
+            cfg['host'] = 'localhost'
+
         conn = mysql.connector.connect(**cfg)
         return conn
 
