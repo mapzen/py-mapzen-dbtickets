@@ -1,5 +1,7 @@
 # py-mapzen-dbtickets
 
+Simple Python wrapper for talking to a ticket server.
+
 ## Usage
 
 ### Simple
@@ -39,6 +41,10 @@ $> python
 >>> t.generate_id()
 21
 ```
+
+## Caveats
+
+* The `setup.py` and dependency stuff is still not finished.
 
 ## See also
 
