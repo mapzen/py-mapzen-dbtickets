@@ -2,6 +2,7 @@
 __import__('pkg_resources').declare_namespace(__name__)
 
 import sys
+import logging
 import random
 import mysql.connector
 
@@ -9,7 +10,9 @@ import mysql.connector
 
 class dbtickets:
 
-    def __init__(self, *hosts):
+    def __init__(self, *hosts, **kwargs):
+
+        self.set_auto_increment = kwargs.get('set_auto_increment', False)
 
         conns = []
 
@@ -31,6 +34,27 @@ class dbtickets:
             cfg['host'] = 'localhost'
 
         conn = mysql.connector.connect(**cfg)
+
+        if self.set_auto_increment:
+
+            curs = conn.cursor()
+
+            try:
+
+                do_this = [
+                    "SET @@auto_increment_increment=2",
+                    "SET @@auto_increment_offset=1"
+                ]
+
+                for sql in do_this:
+                    curs.execute(sql)
+                    conn.commit()
+
+            except Exception, e:
+                conn.rollback()
+                logging.error("failed to %s, because %s" % (sql, e))
+                raise Exception, e
+
         return conn
 
     def connection(self):
@@ -44,7 +68,7 @@ class dbtickets:
 
         conn = self.connection()
         curs = conn.cursor()
-
+                    
         sql = "REPLACE INTO Tickets64 (stub) VALUES (%s)"
         params = ('a',)
 
